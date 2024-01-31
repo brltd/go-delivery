@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  delivery-db:
+    image: postgres:latest
+    container_name: delivery-db
+    env_file: .env
+    ports:
+      - "5432:5432"
+
+  delivery-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: delivery-api
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - delivery-db
