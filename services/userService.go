@@ -2,6 +2,8 @@ package services
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/brltd/delivery/domain"
@@ -9,6 +11,7 @@ import (
 	"github.com/brltd/delivery/helpers"
 	"github.com/brltd/delivery/logger"
 	"github.com/brltd/delivery/repositories"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -53,4 +56,37 @@ func (d DefaultUserService) CreateUser(req dtos.CreateUserRequest) (*dtos.Create
 	response := newUser.ToCreateUserResponseDto()
 
 	return &response, nil
+}
+
+func (d DefaultUserService) AuthenticateUser() {
+
+}
+
+func generateToken(user domain.User) (*dtos.AuthResponse, error) {
+	expiration := os.Getenv("EXP_HOUR")
+	secret := os.Getenv("JWT_SECRET")
+
+	exp, err := strconv.Atoi(expiration)
+
+	if err != nil {
+		return nil, err
+	}
+
+	expDate := time.Now().Add(time.Hour * time.Duration(exp))
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":    user.Id,
+		"email": user.Email,
+		"exp":   expDate.Unix(),
+	})
+
+	tokenString, err := token.SignedString(secret)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dtos.AuthResponse{
+		Token: tokenString,
+		Exp:   expDate,
+	}, nil
 }

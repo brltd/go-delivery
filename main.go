@@ -36,7 +36,8 @@ func main() {
 
 	// router.Handler(http.MethodGet, "/customers", dynamic.ThenFunc(customerHandler.GetAllCustomers))
 	// router.Handler(http.MethodGet, "/customers/:customer_id", dynamic.ThenFunc(customerHandler.GetCustomer))
-	router.Handler(http.MethodPost, "/api/user", public.ThenFunc(userHandler.CreateUser))
+	router.Handler(http.MethodPost, "/api/user/register", public.ThenFunc(userHandler.CreateUser))
+	router.Handler(http.MethodPost, "/api/user/login", public.ThenFunc(userHandler.CreateUser))
 
 	// protected := public.Append(middlewares.Authenticate)
 
@@ -74,6 +75,7 @@ func loadEnv() {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 	jwtSecret := os.Getenv("JWT_SECRET")
+	expHour := os.Getenv("EXP_HOUR")
 
 	message := "Missing environment variable "
 
@@ -107,5 +109,9 @@ func loadEnv() {
 
 	if jwtSecret == "" {
 		logger.Error(message + "JWT_SECRET")
+	}
+
+	if expHour == "" {
+		logger.Error(message + "EXP_HOUR")
 	}
 }
