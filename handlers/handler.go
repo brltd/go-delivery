@@ -9,11 +9,15 @@ import (
 )
 
 func writeResponse(w http.ResponseWriter, code int, data interface{}) {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(code)
-	if err := json.NewEncoder(w).Encode(data); err != nil {
+	w.Header().Set("Content-Type", "application/json")
+
+	encodedData, err := json.Marshal(data)
+	if err != nil {
 		logger.Error(fmt.Sprintf("Error encoding response %+v", err))
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+
+	w.WriteHeader(code)
+	w.Write(encodedData)
 }
