@@ -1,0 +1,52 @@
+definitions:
+  dtos.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  dtos.CreateUserResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  helpers.ApiError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.ApiError'
+      summary: Create a new user
+      tags:
+      - users
+swagger: "2.0"

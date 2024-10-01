@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/brltd/delivery/db"
+	_ "github.com/brltd/delivery/docs"
 	"github.com/brltd/delivery/handlers"
 	"github.com/brltd/delivery/logger"
 	"github.com/brltd/delivery/middlewares"
@@ -17,6 +18,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
@@ -38,6 +40,10 @@ func main() {
 	// router.Handler(http.MethodGet, "/customers/:customer_id", dynamic.ThenFunc(customerHandler.GetCustomer))
 	router.Handler(http.MethodPost, "/api/user/register", public.ThenFunc(userHandler.CreateUser))
 	router.Handler(http.MethodPost, "/api/user/login", public.ThenFunc(userHandler.CreateUser))
+
+	router.GET("/swagger/*any", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		httpSwagger.WrapHandler.ServeHTTP(w, r)
+	})
 
 	// protected := public.Append(middlewares.Authenticate)
 
@@ -61,7 +67,8 @@ func main() {
 	}
 
 	logger.Info(fmt.Sprintf("Starting server on port %s", port))
-	log.Fatal(srv.ListenAndServeTLS("./certificates/cert.pem", "./certificates/key.pem"))
+	// log.Fatal(srv.ListenAndServeTLS("./certificates/cert.pem", "./certificates/key.pem"))
+	log.Fatal(srv.ListenAndServe())
 }
 
 func loadEnv() {
