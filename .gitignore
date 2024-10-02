@@ -6,6 +6,7 @@
 *.dylib
 *.test
 *.out
+.db
 .vscode
 temp/*
 logs.log

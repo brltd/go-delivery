@@ -23,7 +23,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /user/register:
+  /api/user/register:
     post:
       consumes:
       - application/json
@@ -39,11 +39,11 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: User Response
           schema:
             $ref: '#/definitions/dtos.CreateUserResponse'
         "400":
-          description: Bad Request
+          description: Api Error
           schema:
             $ref: '#/definitions/helpers.ApiError'
       summary: Create a new user

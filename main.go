@@ -26,7 +26,7 @@ func main() {
 
 	router := httprouter.New()
 
-	dbClient := db.GetPostgresClient()
+	dbClient := db.GetSQLiteClient()
 
 	userRepository := repositories.NewUserRepository(dbClient)
 

@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/user/register": {
+        "/api/user/register": {
             "post": {
                 "description": "Create a new user",
                 "consumes": [
@@ -41,13 +41,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User Response",
                         "schema": {
                             "$ref": "#/definitions/dtos.CreateUserResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Api Error",
                         "schema": {
                             "$ref": "#/definitions/helpers.ApiError"
                         }

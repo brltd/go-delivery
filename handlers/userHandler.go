@@ -18,9 +18,9 @@ type UserHandler struct {
 // @Accept  json
 // @Produce  json
 // @Param   user  body     dtos.CreateUserRequest  true  "User data"
-// @Success 200  {object}  dtos.CreateUserResponse
-// @Failure 400  {object}  helpers.ApiError
-// @Router  /user/register [post]
+// @Success 200  {object}  dtos.CreateUserResponse "Create user response"
+// @Failure 400  {object}  helpers.ApiError "Api Error"
+// @Router  /api/user/register [post]
 func (h UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var request dtos.CreateUserRequest
 
